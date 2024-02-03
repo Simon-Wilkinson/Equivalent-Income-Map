@@ -1,0 +1,107 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <script src="{% static 'assets/js/color-modes.js' %}"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.118.2">
+    <title>Heroes · Bootstrap v5.3</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/heroes/">
+
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <link href="{% static 'assets/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    
+    <link href="{% static 'core/style.css' %}" rel="stylesheet">
+    <style>
+
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="{% static 'core/heroes.css' %}" rel="stylesheet">
+  </head>
+<body>
+    
+<main>
+  <h1 class="visually-hidden">Heroes examples</h1>
+
+
+
+  <div class="container col-xl-10 col-xxl-8 px-4 py-1">
+    <div class="row align-items-center g-lg-5 py-5">
+      <div class="col-lg-7 text-center text-lg-start">
+        <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Equivalent Income Map</h1>
+        <p class="col-lg-10 fs-4">Enter your income and location and see how you would have to earn in another country to have the same purchasing power.</p>
+      </div>
+      <div class="col-md-10 mx-auto col-lg-5">
+        <form method="post" id = "myForm" class = "my-1" action="{% url 'home' %}">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit" class = "my-1">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="b-example-divider"></div>
+
+  <div class="px-2 pt-2 my-4 text-center">
+    <div id = "map-container"></div>
+  </div>
+
+  <div class="b-example-divider"></div>
+
+  <div class="px-2 pt-2 my-4 text-center">
+    <div id = "bar-container"></div>
+  </div>
+
+</main>
+<script>
+  $(document).ready(function () {
+
+      // Listen for changes in the index field
+      $('#id_index').change(function () {
+          // Trigger the form submission
+          $('#myForm').submit();
+      });
+      $('#id_country').change(function () {
+          // Trigger the form submission
+          $('#myForm').submit();
+      });
+
+  });
+</script>
+<script>
+  var map_data = {{ json_data|safe }};    // json_data is a context variable
+  var base_income = {{ base_income|safe }};    // base_income is a context variable
+  var min_range = {{ min_range|safe }};    // min_range is a context variable
+  var max_range = {{ max_range|safe }};    // max_range is a context variable
+  var location_data = [
+  {% with equivalent_incomes_dict=equivalent_incomes.items %}
+  {% for location in locations %}
+    {% for key, value in equivalent_incomes_dict %}
+      {% if key == location.name %}
+        { "name": "{{ location.name }}", "value": "{{ value }}" }{% if not forloop.last %},{% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endwith %}
+];
+  
+</script>
+<script src = "{% static 'core/index.js' %}"> </script>
+<script src="{% static 'assets/dist/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

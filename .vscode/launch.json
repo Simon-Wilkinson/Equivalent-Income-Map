@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [{
+     "name": "Python: Remote Attach",
+     "type": "python",
+     "request": "attach",
+     "connect": {
+         "host": "localhost",
+         "port": 3000
+      },
+    "pathMappings": [{
+        "localRoot": "C:/Users/simon/Python_Projects/equivalent-income/app",
+        "remoteRoot": "/app"
+     }],
+    "django": true,
+}]
+}
