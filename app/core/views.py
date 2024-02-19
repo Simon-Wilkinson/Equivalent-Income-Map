@@ -9,7 +9,7 @@ import os
 
 # Create your views here.
 def home(request):
-    with open(os.path.join(settings.STATIC_ROOT, 'world_map.json')) as json_file:
+    with open(os.path.join(settings.STATIC_ROOT, 'core', 'world_map.json')) as json_file:
         worldmap_data = json.load(json_file)
 
     form = IncomeForm()
