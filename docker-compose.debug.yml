@@ -3,7 +3,8 @@ version: '3.9'
 services:
   app:
     command: ["sh", "-c", "pip install debugpy -t /tmp && 
-                           python ./manage.py makemigrations &&
+                           python manage.py wait_for_db &&
+                           python manage.py collectstatic --noinput &&
                            python ./manage.py migrate &&
                            python manage.py load_locations &&
                            python /tmp/debugpy --listen 0.0.0.0:3000 ./manage.py runserver 0.0.0.0:8000"]

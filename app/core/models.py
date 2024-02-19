@@ -23,12 +23,11 @@ class Location(models.Model):
         verbose_name_plural = 'Locations'
         ordering = ['name']
 
-    def available_indexes(self):
-        indexes = []
-        if self.ppp_usa is not None:
-            indexes.append('Purchase Power Parity')
-        if self.cost_of_living_index is not None:
-            indexes.append('Cost of Living Index')
-        if self.big_mac_dollar is not None:
-            indexes.append('Big Mac Index')
-        return indexes
+    def serialise(self):
+        return {
+            'name': self.name,
+            'currency_symbol': self.currency_symbol,
+            'exchange_rate_dollar': self.exchange_rate_dollar,
+            'ppp_usa': self.ppp_usa,
+            'big_mac_dollar': self.big_mac_dollar
+        }
