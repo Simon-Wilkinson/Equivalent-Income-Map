@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 data/web/static/admin
 data/web/static/core
+original_data

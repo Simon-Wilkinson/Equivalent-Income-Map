@@ -162,9 +162,7 @@ function handleMapResize() {
 // Handle resizing of the bar chart
 function handleBarChartResize() {
     myChart.resize();
-
 }
-
 
 // Listen for events on the bar chart
 function barChartEventListeners() {
@@ -178,7 +176,6 @@ function barChartEventListeners() {
         }
     });
 }
-
 
 // Initialization
 var myMap = initializeMap();
