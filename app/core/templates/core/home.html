@@ -13,40 +13,46 @@
 </head>
 <body>
 <main>
-  <div id="explanation-form" class="container col-xl-15 col-xxl-20 px-1 py-1">
-    <div class="text-center pt-3">
-      <h1 class="display-4 fw-bold lh-1 text-body-emphasis">Equivalent Income Map</h1>
-    </div>  
-    <div class="row align-items-center text-center pt-3">
-      <div class="col-lg-7 text-center text-lg-start px-3 mt-2">
-        <p class="fs-5">This tool uses cost of living indexes like Purchase Power Parity to enable a better comparison of incomes between countries.</p>
-        <p class="fs-5">Enter a base country and income, and the equivalent income required maintain spending power in other countries will be displayed on the map and bar chart below.</p>
-        <p class="fs-5">Note that the estimated income is consistent with the selected base country, but you can hover over a country to see it converted to the local currency</p>
-
-        <p class="fs-10"><span id="openModalPPP" style="color: blue; cursor: pointer;">More info</span></p>
-      </div>
-      <div class="modal fade" id="myModalPPP" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Purchase Power Parity (PPP)</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-start">
-              <p class="fs-8">By default this tool uses Purchase Power Parity (PPP) data from the <a href="https://data.oecd.org/conversion/purchasing-power-parities-ppp.htm" style="color: blue; cursor: pointer;"> OECD</a>. PPP is based upon average prices of a range of goods and services within a country. It therefore only provides an estimate of the expected cost of living and may not capture individual variations or specific expenses.</p>
-              <p class="fs-8">We've also included the <a href="https://www.economist.com/big-mac-index" style="color: blue; cursor: pointer;">Big Mac Index</a>, which uses cost of a Big Mac as an estimate for the cost of living. If you spend all of your money on Big Macs then this will give you more accurate results! Only countries which are in both of these datasets are displayed.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-10 mx-auto col-lg-5 px-5 mt-2 text-start">
-        <form id="myForm" class="my-1">
-          {% csrf_token %}
-          {{ form|crispy }}
-        </form>
-      </div>
+  <div id="explanation-form" class="container col-xl-15 col-xxl-20 px-1 py-1 d-flex flex-column justify-content-center align-items-center">
+    <div class="text-center pt-2 pb-2">
+        <h1 class="display-6 fw-bold lh-1 text-body-emphasis">Equivalent Income Map</h1>
     </div>
-  </div>
+      <div class="row justify-content-center align-items-center">
+          <!-- Explanation column -->
+          <div class="col-md-6 px-3 mt-0">
+              <div class="text-md">
+                  <p>This tool uses cost of living indexes like Purchase Power Parity to enable a better comparison of incomes between countries.</p>
+                  <p>Enter a base country and income, and the equivalent income required to maintain spending power in other countries will be displayed on the map and bar chart below.</p>
+                  <p>Note that the estimated income is consistent with the selected base country, but you can hover over a country to see it converted to the local currency</p>
+                  <p class="fs-10"><span id="openModalPPP" style="color: blue; cursor: pointer;">More info</span></p>
+              </div>
+              <div class="modal fade" id="myModalPPP" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Purchase Power Parity (PPP)</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start">
+                      <p class="fs-8">By default this tool uses Purchase Power Parity (PPP) data from the <a href="https://data.oecd.org/conversion/purchasing-power-parities-ppp.htm" style="color: blue; cursor: pointer;"> OECD</a>. PPP is based upon average prices of a range of goods and services within a country. It therefore only provides an estimate of the expected cost of living and may not capture individual variations or specific expenses.</p>
+                      <p class="fs-8">We've also included the <a href="https://www.economist.com/big-mac-index" style="color: blue; cursor: pointer;">Big Mac Index</a>, which uses cost of a Big Mac as an estimate for the cost of living. If you spend all of your money on Big Macs then this will give you more accurate results! Only countries which are in both of these datasets are displayed.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <!-- Form column -->
+          <div class="col-md-6 px-3 mt-0">
+            <div class="text-md">
+                <form id="myForm">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
   <div class="b-example-divider"></div>
   <div class="container px-0 py-0" id="map">
     <div class="px-2 pt-2 my-0 align-items-center">
@@ -56,7 +62,7 @@
     </div>
   </div>
   <div class="b-example-divider"></div>
-  <div class="container col-xl-10 col-xxl-8 px-0" id="bar">
+  <div class="container px-0" id="bar">
     <div class="px-2 pt-2 text-center">
       <div class="overflow-hidden">
         <div id="bar-container"></div>
@@ -80,9 +86,10 @@
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-<script src="{% static 'core/resize.js' %}"></script>
 <script>var data = {{ all_data|safe }};</script>
 <script type = "module" src="{% static 'core/main.js' %}"></script>
+
+<script src="{% static 'core/resize.js' %}"></script>
 <script >
   document.addEventListener('DOMContentLoaded', function() {
     'use strict';

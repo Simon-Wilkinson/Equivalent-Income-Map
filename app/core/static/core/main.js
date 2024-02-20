@@ -150,7 +150,21 @@ function mapEventListeners() {
 // Handle resizing of the map chart
 function handleMapResize() {
     myMap.resize();
+    myMap.setOption({
+        visualMap: {
+            itemHeight: myMap.getHeight() / 4,
+            itemWidth: myMap.getWidth() / 50
+            
+        }
+    }
+    );
 }
+// Handle resizing of the bar chart
+function handleBarChartResize() {
+    myChart.resize();
+
+}
+
 
 // Listen for events on the bar chart
 function barChartEventListeners() {
@@ -165,10 +179,6 @@ function barChartEventListeners() {
     });
 }
 
-// Handle resizing of the bar chart
-function handleBarChartResize() {
-    myChart.resize();
-}
 
 // Initialization
 var myMap = initializeMap();
@@ -178,6 +188,7 @@ mapEventListeners();
 barChartEventListeners();
 formEventListeners();
 window.addEventListener('resize', function() {
+    set_map_bar_height()
     handleMapResize();
     handleBarChartResize();
 });

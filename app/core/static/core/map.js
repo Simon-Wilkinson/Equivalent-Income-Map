@@ -1,12 +1,8 @@
-// map.js
-
-// Initialize map and set its options
 var chartDom = document.getElementById('map-container');
 var myMap = echarts.init(chartDom);
 var option;
 
 const map_data = data.worldmap_data;
-const currency_symbol = data.currency_symbol;
 
 function initializeMap() {
     echarts.registerMap('World', map_data);
@@ -44,13 +40,13 @@ function initializeMap() {
                     '#a50026'
                 ]
             },
-            text: ['High', 'Low'],
-            calculable: true
+            itemWidth: 15,
+            itemHeight: 100,
+            calculable: true,
         },
         backgroundColor: '#fff',
         toolbox: {
             show: true,
-            //orient: 'vertical',
             left: 'left',
             top: 'top',
             feature: {
@@ -83,7 +79,6 @@ function initializeMap() {
     return myMap;
 }
 
-
 function GoInFullscreen(element) {
     if (element.requestFullscreen)
         element.requestFullscreen();
@@ -104,11 +99,11 @@ function GoInFullscreen(element) {
         document.webkitExitFullscreen();
     else if (document.msExitFullscreen)
         document.msExitFullscreen();
+        set_map_bar_height();
   }
   
   function IsFullScreenCurrently() {
     var full_screen_element = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement || null;
-  
     // If no element is in full-screen
     if (full_screen_element === null)
         return false;
@@ -122,22 +117,13 @@ function GoInFullscreen(element) {
     console.log(classold);
     
     if (IsFullScreenCurrently()){
-        console.log('exiting full screen');
         GoOutFullscreen();
     idold.style = 'height:300px';
     }
     else {
-        // document.getElementById(divname).className = "col-md-12";
-        //idold.style = 'height:500px';
-        var heights = screen.height;// window.innerHeight;
-        //idold.style.height = heights -100 + "px";
-        console.log('going full screen');                
         GoInFullscreen($("#" + divname).get(0));
     }
-    
     return true;
   }
-
-
 
 export { initializeMap};
